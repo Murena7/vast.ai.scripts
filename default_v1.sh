@@ -8,7 +8,8 @@ APT_PACKAGES=(wget git curl)
 PIP_PACKAGES=()
 
 DIFFUSION_MODELS=(
-  "https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/diffusion_models/wan2.1_i2v_480p_14B_bf16.safetensors"
+  "https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/diffusion_models/wan2.1_i2v_720p_14B_fp16.safetensors"
+  "https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/diffusion_models/wan2.1_i2v_480p_14B_fp16.safetensors"
 )
 
 VAE_MODELS=(
@@ -53,9 +54,16 @@ function provisioning_get_files() {
   mkdir -p "$1"
   cd "$1" || exit
   shift
-  for file in "$@"; do
-    echo "Downloading: $file"
-    wget -N "$file"
+  for entry in "$@"; do
+    if [[ "$entry" == *"|"* ]]; then
+      FILENAME="${entry%%|*}"
+      URL="${entry##*|}"
+      echo "Downloading: $FILENAME from $URL"
+      wget -O "$FILENAME" "$URL"
+    else
+      echo "Downloading: $entry"
+      wget -N "$entry"
+    fi
   done
 }
 
