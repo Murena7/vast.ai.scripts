@@ -37,6 +37,13 @@ function provisioning_get_apt_packages() {
   apt update && apt install -y "${APT_PACKAGES[@]}"
 }
 
+function provisioning_install_pytorch_nightly() {
+  echo "Installing PyTorch nightly with CUDA 12.8..."
+  pip install --pre --force-reinstall \
+    torch torchvision torchaudio \
+    --index-url https://download.pytorch.org/whl/nightly/cu128
+}
+
 function provisioning_get_nodes() {
   echo "Installing custom nodes..."
   cd "${COMFYUI_DIR}/custom_nodes" || exit
@@ -70,6 +77,7 @@ function provisioning_get_files() {
 function provisioning_start() {
   provisioning_print_header
   provisioning_get_apt_packages
+  provisioning_install_pytorch_nightly
   provisioning_get_nodes
   provisioning_get_pip_packages
 
