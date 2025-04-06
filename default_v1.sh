@@ -7,7 +7,7 @@ APT_PACKAGES=(wget git curl)
 
 PIP_PACKAGES=()
 
-CHECKPOINT_MODELS=(
+DIFFUSION_MODELS=(
   "https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/diffusion_models/wan2.1_i2v_480p_14B_bf16.safetensors"
 )
 
@@ -66,8 +66,8 @@ function provisioning_start() {
   provisioning_get_pip_packages
 
   provisioning_get_files \
-    "${COMFYUI_DIR}/models/checkpoints" \
-    "${CHECKPOINT_MODELS[@]}"
+    "${COMFYUI_DIR}/models/diffusion_models" \
+    "${DIFFUSION_MODELS[@]}"
 
   provisioning_get_files \
     "${COMFYUI_DIR}/models/vae" \
